@@ -10,7 +10,8 @@ A sample python wsgi module to implement a custom Terraform backend
 * activate your virtual env `. venv/bin/activate`
 * install required packages into your virtual env `pip install -r requirements.txt`
 * test with pytest `pytest . -v`
-* run with gunicorn or uwsgi `uwsgi --http :9090 --wsgi-file tfbackend/wsgi.py --callable app`
+* run with gunicorn or uwsgi `uwsgi --ini dev.ini`
+* once uwsgi is running on 9090, you can go to terraform/example and run `./run.sh`. This will require terraform to be installed.
 * DO NOT USE WITH PRODUCTION INFRASTRUCTURE
 * terraform side, in a sample repo (NOT PRODUCTION), configure backend.tf to point to your running instance
 

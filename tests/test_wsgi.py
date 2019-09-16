@@ -27,25 +27,25 @@ class TestApplication(unittest.TestCase):
         app = wsgi.Application(fs.Fs())
 
         env = self.get('/get' + TEST_FILE)
-        response = app(env, self.check_answer('200', DEFAULT_HEADERS))
-        self.assertEqual(response, ['null'])
+        response = list(app(env, self.check_answer('200', DEFAULT_HEADERS)))
+        self.assertEqual(response, [b''])
 
     def test_write(self):
         app = wsgi.Application(fs.Fs())
 
         env = self.post('/get' + TEST_FILE, FILE_CONTENT)
-        response = app(env, self.check_answer('400', DEFAULT_HEADERS))
-        self.assertTrue('lock' in response[0].lower())
-        self.assertTrue('required' in response[0].lower())
+        response = list(app(env, self.check_answer('400', DEFAULT_HEADERS)))
+        self.assertTrue('lock' in response[0].decode('utf-8').lower())
+        self.assertTrue('required' in response[0].decode('utf-8').lower())
 
         env = self.lock('/get' + TEST_FILE, LOCK_CONTENT)
-        response = app(env, self.check_answer('200', DEFAULT_HEADERS))
+        response = list(app(env, self.check_answer('200', DEFAULT_HEADERS)))
 
         env = self.post('/get' + TEST_FILE, FILE_CONTENT, {'ID': LOCK_ID})
-        response = app(env, self.check_answer('200', DEFAULT_HEADERS))
+        response = list(app(env, self.check_answer('200', DEFAULT_HEADERS)))
 
-        env = self.unlock('/get' + TEST_FILE, '', {'ID': LOCK_ID})
-        response = app(env, self.check_answer('200', DEFAULT_HEADERS))
+        env = self.unlock('/get' + TEST_FILE, LOCK_CONTENT)
+        response = list(app(env, self.check_answer('200', DEFAULT_HEADERS)))
 
     def check_answer(self, expected_message, expected_headers):
         def check(message, headers):
@@ -59,11 +59,14 @@ class TestApplication(unittest.TestCase):
         env = {
             'REQUEST_METHOD': method,
             'REQUEST_URI': url,
+            'PATH_INFO': url,
             'HTTP_ACCEPT': 'application/json',
             'QUERY_STRING': '&'.join('='.join([k, v]) for k, v in params.items()),
         }
         if content:
             env['wsgi.input'] = io.StringIO(content)
+        if env['QUERY_STRING']:
+            env['REQUEST_URI'] = env['PATH_INFO'] + '?' + env['QUERY_STRING']
         return env
     def get(self, url, params={}):
         return self.query('GET', url, params=params)

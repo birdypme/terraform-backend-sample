@@ -25,12 +25,12 @@ class TestFs(unittest.TestCase):
         files = fs.Fs()
 
         # by default, file content is empty
-        self.assertEqual(files.read(TEST_FILE), None)
+        self.assertEqual(files.read(TEST_FILE), '')
         # can't write without a lock
         with self.assertRaises(fs.FilePermissionError):
             files.write(TEST_FILE, FILE_CONTENT, LOCK_ID)
         # file content hasn't changed
-        self.assertEqual(files.read(TEST_FILE), None)
+        self.assertEqual(files.read(TEST_FILE), '')
         # locking works
         files.lock(TEST_FILE, LOCK_CONTENT)
 

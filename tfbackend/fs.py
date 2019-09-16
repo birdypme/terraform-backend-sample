@@ -45,9 +45,11 @@ class Fs(object):
         self.locks = {}
 
     def read(self, filename):
-        return self.files.get(filename)
+        print('reading: ' + str(filename))
+        return self.files.get(filename, '')
 
     def write(self, filename, content, request_id):
+        print('writing: ' + str(filename) + ' for: ' + str(request_id))
         lock_content, lock_id = self.get_lock_content(filename)
         if not request_id:
             raise FilePermissionError('Lock is required to write any file.')
@@ -56,6 +58,7 @@ class Fs(object):
         self.files[filename] = content
 
     def lock(self, filename, request_content):
+        print('locking: ' + str(filename) + ' for: ' + str(json.loads(request_content).get('ID')))
         lock_content, lock_id = self.get_lock_content(filename)
         if lock_content:
             raise FileLockedError(filename, lock_content, lock_id)
@@ -63,6 +66,7 @@ class Fs(object):
         self.locks[filename] = request_content
 
     def unlock(self, filename, lock_id):
+        print('unlocking: ' + str(filename) + ' for: ' + str(lock_id))
         lock_content, current_lock_id = self.get_lock_content(filename)
         if not lock_content:
             raise LockConflictError(filename, lock_id)
