@@ -1,0 +1,12 @@
+language: python
+branches:
+  except:
+    - /^feature\/.*$/
+python:
+  - '3.6'
+  # - '3.7'
+  # - 'pypy'
+install:
+  - pip3 install --upgrade pip
+  - pip install -r requirements.txt
+script: pytest . -v
