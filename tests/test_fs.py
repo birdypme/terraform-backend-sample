@@ -1,3 +1,11 @@
+"""
+Copyright © 2019 by Julien Champseix.
+All rights reserved.
+This file is part of the terraform-backend-sample tool,
+and is released under the "MIT License Agreement". Please see the LICENSE
+file that should have been included as part of this package.
+"""
+
 import json
 import unittest
 
