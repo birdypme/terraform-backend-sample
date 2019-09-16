@@ -1,0 +1,6 @@
+# windows
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# linux
+*.sh text eol=lf
