@@ -16,13 +16,15 @@ A sample python wsgi module to implement a custom Terraform backend
 * terraform side, in a sample repo (NOT PRODUCTION), configure backend.tf to point to your running instance
 
 ```terraform
-backend "http" {
-    address = http://localhost:9090/get/department/product/environment.tf
-    lock_address = http://localhost:9090/lock/department/product/environment.tf
-    unlock_address = http://localhost:9090/unlock/department/product/environment.tf
-    # basic auth
-    # username =
-    # password =
+terraform {
+    backend "http" {
+        address = "http://localhost:9090/get/department/product/environment.tf"
+        lock_address = "http://localhost:9090/lock/department/product/environment.tf"
+        unlock_address = "http://localhost:9090/unlock/department/product/environment.tf"
+        # basic auth
+        # username =
+        # password =
+    }
 }
 ```
 

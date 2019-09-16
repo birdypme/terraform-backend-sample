@@ -69,6 +69,7 @@ class Application(object):
             request_id = request_id[0]
 
         # dispatch depending on verb and method
+        # documentation: https://www.terraform.io/docs/backends/types/http.html
         try:
             if request_verb=='get':
                 if request_method=='GET':
