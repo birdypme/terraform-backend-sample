@@ -1,5 +1,7 @@
 # terraform-backend-sample
 
+[![Build Status](https://travis-ci.com/birdypme/terraform-backend-sample.svg?branch=master)](https://travis-ci.com/birdypme/terraform-backend-sample)
+
 A sample python wsgi module to implement a custom Terraform backend
 
 # Running
